@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink,useNavigate } from 'react-router-dom';
 import { login } from '../services/authService';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -13,6 +14,9 @@ const Login = () => {
       const data = await login(email, password);
       // Store the token or handle login success
       console.log('Logged in successfully:', data);
+      localStorage.setItem('token', data.token);
+      navigate('/home');
+
     } catch (error) {
       setError('Invalid email or password');
     }
