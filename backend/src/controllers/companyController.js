@@ -3,12 +3,12 @@ const db = require('../config/db');
 
 // Create a new company
 const createCompany = async (req, res) => {
-  const { name, description, location, industry, website, size, founded_year } = req.body;
+  const { name, description, website, size, founded_year } = req.body;
 
   try {
     const result = await db.query(
       'INSERT INTO companies (name, description, location, industry, website, size, founded_year) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',
-      [name, description, location, industry, website, size, founded_year]
+      [name, description, website, size, founded_year]
     );
     res.status(201).json(result.rows[0]);
   } catch (error) {

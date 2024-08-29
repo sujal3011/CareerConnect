@@ -11,12 +11,15 @@ CREATE TABLE companies (
   id SERIAL PRIMARY KEY,
   name VARCHAR(255) NOT NULL UNIQUE,
   description TEXT,
-  location VARCHAR(255) NOT NULL,
-  industry VARCHAR(100),
   website VARCHAR(255),
   size VARCHAR(50) CHECK (size IN ('Small', 'Medium', 'Large')),
   founded_year INTEGER,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE roles (
+  id SERIAL PRIMARY KEY,
+  role_name VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE jobs (
@@ -28,7 +31,14 @@ CREATE TABLE jobs (
   job_type VARCHAR(50) CHECK (job_type IN ('Full-Time', 'Part-Time', 'Contract', 'Internship')),
   experience_years INTEGER CHECK (experience_years >= 0),
   company_id INTEGER REFERENCES companies(id) ON DELETE CASCADE,
+  role_category INTEGER REFERENCES roles(id) ON DELETE SET NULL,
+  department_id INTEGER REFERENCES departments(id) ON DELETE SET NULL,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE departments (
+  id SERIAL PRIMARY KEY,
+  department_name VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE applications (
